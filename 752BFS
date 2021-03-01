@@ -1,0 +1,57 @@
+/*#include<queue>
+#include<string>
+using namespace std;*/
+
+//使用bfs时，要特别注意要得到的结果是从0开始还是从1开始！！！！！！！！
+//对比bfs模板 还是把目标结果的++放在后面比较好
+//(存疑)数字+'0'可以变成单个字符  反之亦然？？
+//观察STL容器之unordered_set STL的插入都是使用emplace(x)？？？？
+
+class Solution {
+public:
+    
+    
+
+    int openLock(vector<string>& deadends, string target) 
+    {
+        int timestoopen=0;
+        queue <string> q;
+        unordered_set<string> used;
+        used.insert(deadends.begin(), deadends.end());
+        if(used.count("0000"))
+        return -1;
+
+        q.push("0000");
+
+        while(!q.empty())//对于每一轮的 整个的 bfs队列
+        {
+            //timestoopen++;
+            int size=q.size();
+
+            for(int i=0;i<size;i++)//把bfs队列的每一个值都依次视为头部进行添加后续节点
+            {
+                string a=q.front();
+                if (a==target)
+                return timestoopen;
+
+                for(int j = 0; j < 4; ++j)//这里认真观察！！
+                {//效果是把一个值变成左或右 但对于特殊值0->1 9  9->8 0 使用余数有很好的效果
+                    for(int t = -1; t < 2; t += 2)
+                    {
+                        char y = (a[j] -'0' + 10 + t) % 10 + '0';
+                        string x = a;
+                        x[j] = y;
+                        if(!used.count(x))
+                        {
+                            q.push(x);
+                            used.emplace(x);
+                        }
+                    }                 
+                }
+                q.pop();
+            }
+            timestoopen++;  
+        }
+        return -1;
+    }
+};
