@@ -1,0 +1,72 @@
+//在进行bfs的标记时  要记住“标记”要在加入队列时就进行处理
+//而且 对于越界的判断 最好还是放到另一条语句去判断 第一条先判断是否越界 再判断其它的
+
+#include<queue>
+
+class Solution {
+public:
+     queue<pair<int, int>> q;
+
+    
+    
+    int numIslands(vector<vector<char>>& grid) 
+    {
+        int num_r=grid.size();      //4 
+        int num_c=grid[0].size();  //3
+        int num_island=0;  //0
+
+
+        for(int r=0;r<num_r;r++)
+        {
+            for(int c=0;c<num_c;c++)
+            {
+                if(grid[r][c]=='1')
+                {
+                    num_island++;
+                    q.push(make_pair(r,c));//？？将该点加入队列
+                    grid[r][c]='0';
+                    bfs(grid, r, c);
+                }
+            }
+        }   
+        return num_island;
+    }
+
+    void bfs(vector<vector<char>>& grid, int r, int c)
+    {
+        
+
+        if(r>0)
+        {
+        if(grid[r-1][c]=='1') 
+        q.push(make_pair(r-1,c));
+        grid[r-1][c]='0';
+        }
+
+        if(c>0)  
+        {   
+        if(grid[r][c-1]=='1') 
+        q.push(make_pair(r,c-1));
+        grid[r][c-1]='0';
+        }
+
+        if(r<grid.size()-1)  
+        {
+        if(grid[r+1][c]=='1')  
+        q.push(make_pair(r+1,c));
+        grid[r+1][c]='0';
+        }
+        
+
+        if(c<grid[0].size()-1)   
+        {      
+        if(grid[r][c+1]=='1')    
+        q.push(make_pair(r,c+1)); 
+        grid[r][c+1]='0';
+        }
+        
+        q.pop();
+        if(!q.empty())
+        bfs(grid, q.front().first, q.front().second);        
+    }
+};
