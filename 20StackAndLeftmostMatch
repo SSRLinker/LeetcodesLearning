@@ -1,0 +1,41 @@
+class Solution {
+public:
+    bool isValid(string s) 
+    {
+        stack<char> sta;
+        int len=s.length();//??
+        if (len%2==1)
+        return false;
+
+        for(char c : s)//是不是换成state好点
+        {
+            if(sta.empty())
+            {
+                if(c==')'||c==']'||c=='}')
+                return false;
+            }
+
+            if(c==')'&&sta.top()=='(')
+            {
+                sta.pop();
+            }
+            else if(c==']'&&sta.top()=='[')
+            {
+                sta.pop();
+            }
+            else if(c=='}'&&sta.top()=='{')
+            {
+                sta.pop();
+            }
+            else
+            {
+                sta.push(c);
+            }
+
+        }
+        if(sta.empty())
+        return true;
+        else
+        return false;
+    }
+};
