@@ -1,23 +1,18 @@
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& T) {
-        stack<int> s;//记录温度的栈
-        stack<int> s2;//记录对应天数的栈
+        stack<int> s;//记录对应天数的栈
         int num=T.size();
         vector<int> days(num,0);
-        s.push(100);//在最底层放一个最大的数字
-        s2.push(-1);
 
-        for (int num=0; num<T.size();num++)
+        for (int n=0; n<num;n++)
         {  
-            while(T[num]>s.top())
+            while(!s.empty()&&T[n]>T[s.top()])
             {
-                days[s2.top()]=num-s2.top();
+                days[s.top()]=n-s.top();
                 s.pop();
-                s2.pop();
             }
-            s.push(T[num]);
-            s2.push(num);
+            s.push(n);
         }
         return days;
     }
