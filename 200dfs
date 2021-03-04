@@ -1,0 +1,66 @@
+class Solution {
+public:
+     stack<pair<int, int>> s;
+
+    int numIslands(vector<vector<char>>& grid) 
+    {
+        int num_r=grid.size();      //4 
+        int num_c=grid[0].size();  //3
+        int num_island=0;  //0
+
+
+        for(int r=0;r<num_r;r++)
+        {
+            for(int c=0;c<num_c;c++)
+            {
+                if(grid[r][c]=='1')
+                {
+                    num_island++;
+                    grid[r][c]='0';
+                    dfs(grid, r, c);
+                }
+            }
+        }   
+        return num_island;
+    }
+
+    void dfs(vector<vector<char>>& grid, int r, int c)
+    {
+        if(r>0)
+        {
+            if(grid[r-1][c]=='1') 
+            {
+                grid[r-1][c]='0';
+                dfs(grid, r-1, c);
+            }
+        }
+
+        if(c>0)  
+        {   
+            if(grid[r][c-1]=='1') 
+            {
+                grid[r][c-1]='0';
+                dfs(grid, r, c-1);
+            }
+        }
+
+        if(r<grid.size()-1)  
+        {
+            if(grid[r+1][c]=='1')  
+            {
+                grid[r+1][c]='0';
+                dfs(grid, r+1, c);
+            }
+        }
+        
+        if(c<grid[0].size()-1)   
+            {      
+            if(grid[r][c+1]=='1')    
+            {
+                grid[r][c+1]='0';
+                dfs(grid, r, c+1);
+            }
+        }
+        
+    }
+};
